@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  generation: 2
+  labels:
+    release: readiness-probe-test
+    lbLabel: dummyLB
+  name: readiness-probe-test
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      release: readiness-probe-test
+      lbLabel: dummyLB
+  template:
+    metadata:
+      labels:
+        lbLabel: dummyLB
+        release: readiness-probe-test
+    spec:
+      containers:
+      - image: devchainstack/readiness-probe:v0.0.2
+        imagePullPolicy: IfNotPresent
+        name: readiness-probe
+        env:
+          - name: NODE_REPLICA
+            value: "1"        
+        ports:
+        - containerPort: 8081
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 10m
+            memory: 10Mi
+          limits:
+            cpu: 50m
+            memory: 100Mi
+        readinessProbe:
+          httpGet:
+            port: 8081
+            path: /healthz
+          periodSeconds: 5
+          successThreshold: 2
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+

@@ -1,7 +1,4 @@
 ```mermaid
----
-title: Readiness Probe Stress Test Architecture
----
 stateDiagram-v2
     direction LR
     Stick_to_POD_1 --> Readiness_fail_on_POD_1

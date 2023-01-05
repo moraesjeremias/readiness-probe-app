@@ -1,0 +1,87 @@
+archive: false
+apiMngt: net,eth,web3,txpool,debug,admin
+bath:
+  enabled: true
+  endpoint: https://bath.dev.chainstack.com/api/core/v1/bath-manager
+beaconIngress:
+  httpProxyReadTimeout: "3600"
+  httpProxySendTimeout: "300"
+cluster:
+  domain: int.chainstack.com
+  name: CC-0003
+  provider: gcp
+deploymentLabels:
+  loadBalancer: ethereum-mainnet-nd-310-518-061
+generateKeys:
+  pullPolicy: IfNotPresent
+  repository: ethereum/client-go
+  tag: alltools-v1.10.26
+gethCache: 7168
+image:
+  pullPolicy: IfNotPresent
+  repository: ethereum/client-go
+  tag: v1.10.26
+imageAllTools:
+  tag: alltools-v1.10.23
+ingress:
+  sticky:
+    enabled: true
+  bxgwAdditionalAnnotations: {}
+  bxgwWsAdditionalAnnotations: {}
+  class: nginx
+  enabled: true
+  httpProxyReadTimeout: 300
+  httpProxySendTimeout: 300
+  rpcAdditionalAnnotations: {}
+  warpProxyAdditionalAnnotations: {}
+  warpProxyWsAdditionalAnnotations: {}
+  wsAdditionalAnnotations: {}
+network:
+  id: nw-054-184-5
+networkId: "1"
+nimbus:
+  image:
+    pullPolicy: IfNotPresent
+    repository: statusim/nimbus-eth2
+    tag: amd64-v22.10.1
+  persistence:
+    goerliSize: 100Gi
+    mainnetSize: 200Gi
+    ropstenSize: 20Gi
+  ports:
+    metricsPort: 8008
+    p2pPort: 9000
+    restPort: 5052
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+node:
+  id: nd-051-212-489
+organization:
+  id: rg-149-832
+persistenceAncient:
+  enabled: false
+resources:
+  limits:
+    cpu: 6500m
+    memory: 25Gi
+  requests:
+    cpu: 6500m
+    memory: 25Gi
+service:
+  selector:
+    app: geth-public
+    release: ethereum-mainnet-nd-051-212-489
+warpProxy:
+  enabled: false
+wsIngress:
+  sticky:
+    enabled: true
+  class: nginx
+  enabled: true
+  httpProxyReadTimeout: 3600
+  httpProxySendTimeout: 3600

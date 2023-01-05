@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    kubernetes.io/createdby: bolt-provisioner
+    pv.kubernetes.io/provisioned-by: kubernetes.io/gce-pd
+  finalizers:
+  - kubernetes.io/pv-protection
+  labels:
+    app: geth-public
+    app.kubernetes.io/instance: ethereum-mainnet-nd-310-518-061
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: geth-public
+    component: node
+    heritage: Helm
+    network: nw-054-184-5
+    nodeId: nd-310-518-061
+    nodeType: dedicated
+    org: rg-149-832
+    release: ethereum-mainnet-nd-310-518-061
+    topology.kubernetes.io/region: asia-southeast1
+    topology.kubernetes.io/zone: asia-southeast1-a
+    volume.autoscaler.kubernetes.io/auto-resize-enabled: "true"
+  name: ethereum-mainnet-nd-310-518-061-nimbus
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 200Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: ethereum-mainnet-nd-310-518-061-nimbus
+    namespace: default
+  gcePersistentDisk:
+    pdName: eth-2023-bkp-nimbus-disk
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: topology.kubernetes.io/zone
+          operator: In
+          values:
+          - asia-southeast1-a
+        - key: topology.kubernetes.io/region
+          operator: In
+          values:
+          - asia-southeast1
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ssd-dynamic
+  volumeMode: Filesystem
+

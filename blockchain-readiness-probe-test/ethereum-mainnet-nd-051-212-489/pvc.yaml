@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    bolt-provisioner.chainstack.com/network-id: geth-public-1
+    meta.helm.sh/release-name: ethereum-mainnet-nd-051-212-489
+    meta.helm.sh/release-namespace: default
+    volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/gce-pd
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: geth-public
+    app.kubernetes.io/instance: ethereum-mainnet-nd-051-212-489
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: geth-public
+    component: node
+    heritage: Helm
+    network: nw-054-184-5
+    nodeId: nd-310-518-061
+    nodeType: dedicated
+    org: rg-149-832
+    release: ethereum-mainnet-nd-051-212-489
+    volume.autoscaler.kubernetes.io/auto-resize-enabled: "true"
+  name: ethereum-mainnet-nd-051-212-489
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1000Gi
+  selector:
+    matchLabels:
+      release: ethereum-mainnet-nd-051-212-489
+  storageClassName: ssd-dynamic
+  volumeMode: Filesystem
+  volumeName: ethereum-mainnet-nd-051-212-489
+

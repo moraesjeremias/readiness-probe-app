@@ -17,6 +17,8 @@ generateKeys:
   repository: ethereum/client-go
   tag: alltools-v1.10.26
 gethCache: 7168
+headlagProbeDelay: 300
+headlagProbeThreshold: 600
 image:
   pullPolicy: IfNotPresent
   repository: ethereum/client-go

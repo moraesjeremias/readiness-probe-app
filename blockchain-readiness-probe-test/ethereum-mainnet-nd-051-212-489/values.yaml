@@ -23,6 +23,8 @@ image:
   tag: v1.10.26
 imageAllTools:
   tag: alltools-v1.10.23
+headlagProbeDelay: 300
+headlagProbeThreshold: 600
 ingress:
   sticky:
     enabled: true

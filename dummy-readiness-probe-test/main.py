@@ -1,7 +1,7 @@
 import os
 
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketException
 from statemachine import StateMachine, State
 
 node_replica = os.getenv('NODE_REPLICA')
@@ -24,6 +24,21 @@ async def status():
     return build_response_message()
 
 
+@app.websocket('/ws/healthz')
+async def health(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        try:
+            data = await websocket.receive_json()
+            if data['method'] == 'is_alive':
+                await websocket.send_json(build_response_message())
+            if data['method'] == 'close_conn':
+                await websocket.close(reason='Connection closed by user')
+                break
+        except WebSocketException as ws_execpt:
+            await websocket.close(code=ws_execpt.code, reason=ws_execpt.reason)
+
+
 @app.get("/healthz")
 async def health():
     if node_status.current_state.value == 'READY':
@@ -44,7 +59,7 @@ async def recover():
     return build_response_message()
 
 
-def build_response_message():
+def build_response_message() -> dict:
     return {"status": node_status.current_state.value, "replica": node_replica}
 
 

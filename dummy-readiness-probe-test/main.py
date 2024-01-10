@@ -1,10 +1,12 @@
 import os
+import time
 
 import uvicorn
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketException
 from statemachine import StateMachine, State
 
 node_replica = os.getenv('NODE_REPLICA')
+startup_probe_delay = float(os.getenv('STARTUP_PROBE_DELAY', 10))
 app = FastAPI()
 
 
@@ -64,4 +66,5 @@ def build_response_message() -> dict:
 
 
 if __name__ == '__main__':
+    time.sleep(startup_probe_delay)
     uvicorn.run("main:app", host='0.0.0.0', port=8081)
